@@ -1,8 +1,6 @@
 #include <stdio.h>
 #include <math.h>
-#include <string>
-// #include <windows.h>
-using namespace std;
+#include <string.h>
 
 int main() {
     float R = 3, r = 1;
@@ -10,6 +8,8 @@ int main() {
     // string brightness = ".,-~:;=!*#$@";
 
     float A = 0.0, B = 0.0;
+    int width = 80, height = 24;
+    float cameraDist = 8, scale = 30;
 
     while(1) {
         for(float theta = 0.0; theta < 2 * pi; theta += 0.1) {
@@ -28,6 +28,12 @@ int main() {
                 float x2 = x1 * cos(B) - y1 * sin(B);
                 float y2 = x1 * sin(B) + y1 * cos(B);
                 float z2 = z1;
+
+                // projection coordinates
+                float D = 1 / (z2 + cameraDist); // perspective coeficient
+                float xs = width / 2 + scale * D * x2;
+                float ys = height / 2 - scale * D * y2;
+
             }
         }
 

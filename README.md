@@ -35,7 +35,6 @@ For projection, the renderer uses reciprocal depth `D = 1 / (z2 + cameraDist)` t
 
 - `donut.c` — classic rotating donut animation
 - `trident.c` — spinning trident animation
-- `donut.exe` / `trident.exe` — prebuilt Windows binaries
 - `spinning_donut.gif` / `spinning_trident.gif` — recorded GIF demos
 
 ## Requirements

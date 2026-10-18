@@ -2,9 +2,9 @@
 
 A small C project that renders two animated ASCII-style terminal graphics in real time: a rotating 3D donut and a spinning trident. Both are built with pure C, math-based projection, lighting, and ANSI terminal control.
 
-![Spinning donut animation](spinning_donut.gif)
-
 ![Spinning trident animation](spinning_trident.gif)
+
+![Spinning donut animation](spinning_donut.gif)
 
 ## Features
 

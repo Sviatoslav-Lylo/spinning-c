@@ -12,6 +12,7 @@
 *.ilk
 *.pch
 *.gch
+*.mp4
 
 # Build directories
 /build/

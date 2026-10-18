@@ -3,11 +3,11 @@
 #include <string.h>
 
 int main() {
-    float R = 3, r = 1;
+    float R = 3.5, r = 1.5;
     float pi = acos(-1.0);
     const char *brightness = ".,-~:;=!*#$@";
 
-    float A = 0.0, B = 0.0;
+    
     int width = 80, height = 40;
     float cameraDist = 8, scale = 30;
 
@@ -15,6 +15,19 @@ int main() {
     char buffer[width * height];
 
     printf("\033[?25l"); // Hide the terminal cursor during animation.
+    float A = 0.0, B = 0.0; // Rotation angles about the x- and z-axes
+
+    // light direction used for shading the donut.    
+    float lx = -1.0f;
+    float ly = 1.0f;
+    float lz = -1.0f;
+
+    // light direction normalized for the dot product.
+    float invLen = 1.0f / sqrtf(lx * lx + ly * ly + lz * lz);
+    lx *= invLen;
+    ly *= invLen;
+    lz *= invLen;
+    
     while(1) {
         memset(buffer, ' ', sizeof(buffer));
 
@@ -39,6 +52,29 @@ int main() {
                 float y2 = x1 * sin(B) + y1 * cos(B);
                 float z2 = z1;
 
+                // Compute the surface normal for lighting effects
+                float nx = cos(phi) * cos(theta);
+                float ny = cos(phi) * sin(theta);
+                float nz = sin(phi);
+                
+                // Rotate about the x-axis.
+                float nx1 = nx;
+                float ny1 = ny * cos(A) - nz * sin(A);
+                float nz1 = ny * sin(A) + nz * cos(A);
+
+                // Rotate about the z-axis.
+                float nx2 = nx1 * cos(B) - ny1 * sin(B);
+                float ny2 = nx1 * sin(B) + ny1 * cos(B);
+                float nz2 = nz1;
+
+                float L = nx2 * lx + ny2 * ly + nz2 * lz;
+
+                if (L < 0) L = 0;
+                if (L > 1) L = 1;
+
+                int brightnessIndex = (int)(L * 11);
+                char pixel = brightness[brightnessIndex];
+
                 // Project the rotated point using perspective.
                 float D = 1 / (z2 + cameraDist); // Reciprocal depth.
                 float xs = width / 2 + scale * D * x2;
@@ -53,7 +89,7 @@ int main() {
                     // Larger reciprocal depth means the sample is closer.
                     if(D > zbuffer[idx]) {
                         zbuffer[idx] = D;
-                        buffer[idx] = '*';
+                        buffer[idx] = pixel;
                     }
                 }
 

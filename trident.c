@@ -70,14 +70,14 @@ int main() {
     const char *brightness = ".,-~:;=!*#$@";
 
     float cameraDist = 38, scale = 40;
-    int width = 200, height = 0;
+    int width = 80, height = 40;
 
 
     int maskHeight = sizeof(trident) / sizeof(trident[0]);
     int maskWidth = strlen(trident[0]);
     int cx = (maskWidth - 1) / 2;
     int cy = (maskHeight - 1) / 2;
-    int depth = 4;
+    int depth = 6;
 
     
 
